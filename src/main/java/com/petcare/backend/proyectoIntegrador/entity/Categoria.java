@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "categoria")
 @Setter
 @Getter
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Categoria {
 
     @Id
@@ -22,6 +22,12 @@ public class Categoria {
     private Long id_categoria;
 
     private String nombre;
+
+    @Column(name = "descripcion", columnDefinition = "TEXT")
+    private String descripcion;
+
+    @Column(name = "imagen_url", columnDefinition = "TEXT")
+    private String imagenUrl;
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
