@@ -7,13 +7,20 @@ import java.util.Optional;
 
 public interface IReservaService {
     Reserva crear(Reserva reserva);
+
     Optional<Reserva> obtenerPorId(Short id);
+
     List<Reserva> listarTodos();
+
     List<Reserva> listarPorUsuario(Short usuarioId);
+
     List<Reserva> listarPorMascota(Short mascotaId);
-    List<Reserva> listarPorEstablecimiento(Short establecimientoId);
+
     List<Reserva> listarPorEstado(String estado);
+
     List<Reserva> buscarPorRangoFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin);
+
     Reserva actualizar(Reserva reserva);
+
     void eliminar(Short id);
-} 
+}

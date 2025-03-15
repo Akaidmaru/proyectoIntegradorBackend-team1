@@ -24,7 +24,8 @@ public class ReservaController {
     private final IServicioService servicioService;
     private final JwtService jwtService;
 
-    public ReservaController(IReservaService reservaService, IUsuarioService usuarioService, IServicioService servicioService, JwtService jwtService) {
+    public ReservaController(IReservaService reservaService, IUsuarioService usuarioService,
+            IServicioService servicioService, JwtService jwtService) {
         this.jwtService = jwtService;
         this.reservaService = reservaService;
         this.usuarioService = usuarioService;
@@ -58,11 +59,6 @@ public class ReservaController {
         return new ResponseEntity<>(reservaService.listarPorMascota(mascotaId), HttpStatus.OK);
     }
 
-    @GetMapping("/establecimiento/{establecimientoId}")
-    public ResponseEntity<List<Reserva>> listarPorEstablecimiento(@PathVariable Short establecimientoId) {
-        return new ResponseEntity<>(reservaService.listarPorEstablecimiento(establecimientoId), HttpStatus.OK);
-    }
-
     @GetMapping("/estado/{estado}")
     public ResponseEntity<List<Reserva>> listarPorEstado(@PathVariable String estado) {
         return new ResponseEntity<>(reservaService.listarPorEstado(estado), HttpStatus.OK);
@@ -73,9 +69,8 @@ public class ReservaController {
             @RequestParam LocalDateTime fechaInicio,
             @RequestParam LocalDateTime fechaFin) {
         return new ResponseEntity<>(
-            reservaService.buscarPorRangoFechas(fechaInicio, fechaFin),
-            HttpStatus.OK
-        );
+                reservaService.buscarPorRangoFechas(fechaInicio, fechaFin),
+                HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -99,7 +94,7 @@ public class ReservaController {
 
     @PostMapping("/{servicioId}")
     public ResponseEntity<String> reservar(@RequestHeader("Authorization") String token,
-                                           @PathVariable short servicioId) {
+            @PathVariable short servicioId) {
         String email = jwtService.extractUsername(token.replace("Bearer ", ""));
         Usuario usuario = usuarioService.buscarPorEmail(email).orElseThrow();
         Servicio servicio = servicioService.obtenerPorId(servicioId).orElseThrow();
@@ -112,4 +107,4 @@ public class ReservaController {
         reservaService.crear(reserva);
         return ResponseEntity.ok("Reservación realizada");
     }
-} 
+}

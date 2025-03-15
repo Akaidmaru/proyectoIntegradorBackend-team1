@@ -15,7 +15,7 @@ public class ReservaServiceImpl implements IReservaService {
 
     @Autowired
     private IReservaRepository reservaRepository;
-    
+
     @Override
     public Reserva crear(Reserva reserva) {
         reserva.setFechaRegistro(LocalDateTime.now());
@@ -27,48 +27,43 @@ public class ReservaServiceImpl implements IReservaService {
         }
         return reservaRepository.save(reserva);
     }
-    
+
     @Override
     public Optional<Reserva> obtenerPorId(Short id) {
         return reservaRepository.findById(id);
     }
-    
+
     @Override
     public List<Reserva> listarTodos() {
         return reservaRepository.findActivos();
     }
-    
+
     @Override
     public List<Reserva> listarPorUsuario(Short usuarioId) {
         return reservaRepository.findByUsuarioId(usuarioId);
     }
-    
+
     @Override
     public List<Reserva> listarPorMascota(Short mascotaId) {
         return reservaRepository.findByMascotaId(mascotaId);
     }
-    
-    @Override
-    public List<Reserva> listarPorEstablecimiento(Short establecimientoId) {
-        return reservaRepository.findByEstablecimientoId(establecimientoId);
-    }
-    
+
     @Override
     public List<Reserva> listarPorEstado(String estado) {
         return reservaRepository.findByEstado(estado);
     }
-    
+
     @Override
     public List<Reserva> buscarPorRangoFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         return reservaRepository.findByRangoFechas(fechaInicio, fechaFin);
     }
-    
+
     @Override
     public Reserva actualizar(Reserva reserva) {
         reserva.setFechaActualizacion(LocalDateTime.now());
         return reservaRepository.save(reserva);
     }
-    
+
     @Override
     public void eliminar(Short id) {
         Optional<Reserva> reserva = reservaRepository.findById(id);
@@ -79,4 +74,4 @@ public class ReservaServiceImpl implements IReservaService {
             reservaRepository.save(r);
         }
     }
-} 
+}

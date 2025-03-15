@@ -11,18 +11,15 @@ import java.util.List;
 public interface IReservaRepository extends JpaRepository<Reserva, Short> {
     @Query("SELECT r FROM Reserva r WHERE r.usuario.idUsuario = :usuarioId")
     List<Reserva> findByUsuarioId(Short usuarioId);
-    
+
     @Query("SELECT r FROM Reserva r WHERE r.mascota.idMascota = :mascotaId")
     List<Reserva> findByMascotaId(Short mascotaId);
-    
-    @Query("SELECT r FROM Reserva r WHERE r.establecimiento.idEstablecimiento = :establecimientoId")
-    List<Reserva> findByEstablecimientoId(Short establecimientoId);
-    
+
     List<Reserva> findByEstado(String estado);
-    
+
     @Query("SELECT r FROM Reserva r WHERE r.fecha BETWEEN :fechaInicio AND :fechaFin")
     List<Reserva> findByRangoFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin);
-    
+
     @Query("SELECT r FROM Reserva r WHERE r.esBorrado = false")
     List<Reserva> findActivos();
-} 
+}
