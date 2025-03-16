@@ -52,42 +52,48 @@ public class CategoriaController {
                 servicios);
     }
 
-    @PostMapping
-    public ResponseEntity<Categoria> crearCategoria(@RequestBody Categoria categoria) {
-        Categoria nuevaCategoria = categoriaService.crearCategoria(categoria);
-        return new ResponseEntity<>(nuevaCategoria, HttpStatus.CREATED);
-    }
-
-    @PostMapping(value = "/categoria-completa", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<String> crearCategoriaCompleta(
-            @RequestPart("datos") String datosJson,
-            @RequestPart("imagen") MultipartFile imagen) {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        CategoriaRequest categoriaDTO;
+    // Método POST mejorado que soporta JSON o multipart/form-data con imagen
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> crearCategoria(
+            @RequestPart(value = "datos", required = false) String datosJson,
+            @RequestPart(value = "imagen", required = false) MultipartFile imagen) {
 
         try {
-            categoriaDTO = objectMapper.readValue(datosJson, CategoriaRequest.class);
-        } catch (IOException e) {
-            return new ResponseEntity<>("Error al deserializar el JSON: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+            Categoria categoria;
 
-        try {
-            // Subir la imagen a S3
-            byte[] fileBytes = imagen.getBytes();
-            String imageUrl = s3Service.uploadFile(fileBytes, imagen.getOriginalFilename());
+            // Si recibimos datos en formato JSON
+            if (datosJson != null) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                if (imagen != null) {
+                    // Caso con imagen y datos JSON
+                    CategoriaRequest categoriaDTO = objectMapper.readValue(datosJson, CategoriaRequest.class);
+                    categoria = new Categoria();
+                    categoria.setNombre(categoriaDTO.getNombre());
+                    categoria.setDescripcion(categoriaDTO.getDescripcion());
 
-            // Crear la categoría con la URL de la imagen
-            Categoria categoria = new Categoria();
-            categoria.setNombre(categoriaDTO.getNombre());
-            categoria.setDescripcion(categoriaDTO.getDescripcion());
-            categoria.setImagenUrl(imageUrl);
+                    // Subir imagen a S3
+                    byte[] fileBytes = imagen.getBytes();
+                    String imageUrl = s3Service.uploadFile(fileBytes, imagen.getOriginalFilename());
+                    categoria.setImagenUrl(imageUrl);
+                } else {
+                    // Caso solo con datos JSON
+                    categoria = objectMapper.readValue(datosJson, Categoria.class);
+                }
+            } else if (imagen != null) {
+                // Solo imagen sin datos (caso inválido)
+                return new ResponseEntity<>("Se requiere el campo 'datos' para crear una categoría",
+                        HttpStatus.BAD_REQUEST);
+            } else {
+                // No se proporcionaron datos ni imagen (caso inválido)
+                return new ResponseEntity<>("No se proporcionaron datos para crear la categoría",
+                        HttpStatus.BAD_REQUEST);
+            }
 
             Categoria nuevaCategoria = categoriaService.crearCategoria(categoria);
+            return new ResponseEntity<>(nuevaCategoria, HttpStatus.CREATED);
 
-            return new ResponseEntity<>("Categoría creada con éxito con imagen en: " + imageUrl, HttpStatus.CREATED);
         } catch (IOException e) {
-            return new ResponseEntity<>("Error al subir la imagen: " + e.getMessage(),
+            return new ResponseEntity<>("Error al procesar la solicitud: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
