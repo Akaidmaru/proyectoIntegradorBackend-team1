@@ -5,6 +5,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .qodo
+.gitattributes
 
 ### STS ###
 .apt_generated
