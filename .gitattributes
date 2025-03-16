@@ -1,2 +1,39 @@
+# Maven Wrapper
 /mvnw text eol=lf
+
+# Windows Command Files
 *.cmd text eol=crlf
+
+# GitHub Workflows
+.github/workflows/* merge=ours
+
+# Dockerfile
+Dockerfile merge=ours
+
+# Default Text Handling
+* text=auto
+
+# Binary Files
+*.png binary
+*.jpg binary
+
+# JSON and YAML files
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Source code files
+*.java text eol=lf
+*.py text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+# Plain text files
+*.md text eol=lf
+*.txt text eol=lf
+
+# Git configuration files
+.gitattributes text eol=lf
+.gitignore text eol=lf
