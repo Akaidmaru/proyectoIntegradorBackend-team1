@@ -26,7 +26,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
     
     @Override
-    public Optional<Usuario> obtenerPorId(Short id) {
+    public Optional<Usuario> obtenerPorId(Integer id) {
         return usuarioRepository.findById(id);
     }
     
@@ -52,7 +52,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
     
     @Override
-    public void eliminar(Short id) {
+    public void eliminar(Integer id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         if (usuario.isPresent()) {
             Usuario u = usuario.get();

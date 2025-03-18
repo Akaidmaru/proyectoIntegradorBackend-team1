@@ -23,7 +23,7 @@ public class MascotaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Mascota> obtenerPorId(@PathVariable Short id) {
+    public ResponseEntity<Mascota> obtenerPorId(@PathVariable Integer id) {
         return mascotaService.obtenerPorId(id)
                 .map(mascota -> new ResponseEntity<>(mascota, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -45,12 +45,12 @@ public class MascotaController {
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<Mascota>> listarPorUsuario(@PathVariable Short usuarioId) {
+    public ResponseEntity<List<Mascota>> listarPorUsuario(@PathVariable Integer usuarioId) {
         return new ResponseEntity<>(mascotaService.listarPorUsuario(usuarioId), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Mascota> actualizar(@PathVariable Short id, @RequestBody Mascota mascota) {
+    public ResponseEntity<Mascota> actualizar(@PathVariable Integer id, @RequestBody Mascota mascota) {
         return mascotaService.obtenerPorId(id)
                 .map(mascotaExistente -> {
                     mascota.setIdMascota(id);
@@ -60,7 +60,7 @@ public class MascotaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Short id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         if (mascotaService.obtenerPorId(id).isPresent()) {
             mascotaService.eliminar(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

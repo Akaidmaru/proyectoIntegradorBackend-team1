@@ -17,10 +17,10 @@ public class DetallePedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_pedido")
-    private short idDetallePedido;
+    private Integer idDetallePedido;
     
     @Column(name = "cantidad")
-    private short cantidad;
+    private Integer cantidad;
     
     @Column(name = "precio_unitario")
     private BigDecimal precioUnitario;

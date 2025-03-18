@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface IUsuarioRepository extends JpaRepository<Usuario, Short> {
+public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("SELECT u FROM Usuario u WHERE u.nombre LIKE %:nombre%")
     List<Usuario> findByNombre(String nombre);
     

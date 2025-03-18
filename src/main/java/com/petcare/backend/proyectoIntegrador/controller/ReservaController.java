@@ -1,7 +1,9 @@
 package com.petcare.backend.proyectoIntegrador.controller;
 
+import com.petcare.backend.proyectoIntegrador.DTO.ReservaDTO;
 import com.petcare.backend.proyectoIntegrador.config.JwtService;
 import com.petcare.backend.proyectoIntegrador.entity.Reserva;
+import com.petcare.backend.proyectoIntegrador.entity.ReservaFecha;
 import com.petcare.backend.proyectoIntegrador.entity.Servicio;
 import com.petcare.backend.proyectoIntegrador.entity.Usuario;
 import com.petcare.backend.proyectoIntegrador.service.IReservaService;
@@ -11,11 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reservas")
+@RequestMapping("api/reservas")
 @CrossOrigin(origins = "*")
 public class ReservaController {
 
@@ -38,7 +42,7 @@ public class ReservaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reserva> obtenerPorId(@PathVariable Short id) {
+    public ResponseEntity<Reserva> obtenerPorId(@PathVariable Integer id) {
         return reservaService.obtenerPorId(id)
                 .map(reserva -> new ResponseEntity<>(reserva, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -50,12 +54,12 @@ public class ReservaController {
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<Reserva>> listarPorUsuario(@PathVariable Short usuarioId) {
+    public ResponseEntity<List<Reserva>> listarPorUsuario(@PathVariable Integer usuarioId) {
         return new ResponseEntity<>(reservaService.listarPorUsuario(usuarioId), HttpStatus.OK);
     }
 
     @GetMapping("/mascota/{mascotaId}")
-    public ResponseEntity<List<Reserva>> listarPorMascota(@PathVariable Short mascotaId) {
+    public ResponseEntity<List<Reserva>> listarPorMascota(@PathVariable Integer mascotaId) {
         return new ResponseEntity<>(reservaService.listarPorMascota(mascotaId), HttpStatus.OK);
     }
 
@@ -64,17 +68,8 @@ public class ReservaController {
         return new ResponseEntity<>(reservaService.listarPorEstado(estado), HttpStatus.OK);
     }
 
-    @GetMapping("/fecha")
-    public ResponseEntity<List<Reserva>> buscarPorRangoFechas(
-            @RequestParam LocalDateTime fechaInicio,
-            @RequestParam LocalDateTime fechaFin) {
-        return new ResponseEntity<>(
-                reservaService.buscarPorRangoFechas(fechaInicio, fechaFin),
-                HttpStatus.OK);
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<Reserva> actualizar(@PathVariable Short id, @RequestBody Reserva reserva) {
+    public ResponseEntity<Reserva> actualizar(@PathVariable Integer id, @RequestBody Reserva reserva) {
         return reservaService.obtenerPorId(id)
                 .map(reservaExistente -> {
                     reserva.setIdReserva(id);
@@ -84,7 +79,7 @@ public class ReservaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Short id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         if (reservaService.obtenerPorId(id).isPresent()) {
             reservaService.eliminar(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -94,7 +89,7 @@ public class ReservaController {
 
     @PostMapping("/{servicioId}")
     public ResponseEntity<String> reservar(@RequestHeader("Authorization") String token,
-            @PathVariable short servicioId) {
+                                           @PathVariable Integer servicioId) {
         String email = jwtService.extractUsername(token.replace("Bearer ", ""));
         Usuario usuario = usuarioService.buscarPorEmail(email).orElseThrow();
         Servicio servicio = servicioService.obtenerPorId(servicioId).orElseThrow();
@@ -102,9 +97,27 @@ public class ReservaController {
         Reserva reserva = new Reserva();
         reserva.setUsuario(usuario);
         reserva.setServicio(servicio);
-        reserva.setFecha(LocalDateTime.now());
+
+        List<ReservaFecha> fechaR = new ArrayList<>();
 
         reservaService.crear(reserva);
         return ResponseEntity.ok("Reservación realizada");
     }
+
+
+
+    @GetMapping("/{idServicio}/fechas-reservas")
+    public ResponseEntity<List<LocalDate>> getReservas(@PathVariable("idServicio") Integer idServicio) {
+        System.out.println("Solicitud recibida para idServicio: " + idServicio);
+
+        List<LocalDate> reservas = reservaService.getFechasConfirmadas(idServicio);
+        return ResponseEntity.ok(reservas);
+    }
+
+    @PostMapping("/reserva")
+    public ResponseEntity<Reserva> crearReserva(@RequestBody ReservaDTO reservaDTO) {
+        Reserva nuevaReserva = reservaService.crearReserva(reservaDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaReserva);
+    }
+
 }

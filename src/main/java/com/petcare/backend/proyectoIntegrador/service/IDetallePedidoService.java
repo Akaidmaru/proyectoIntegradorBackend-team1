@@ -6,10 +6,10 @@ import java.util.Optional;
 
 public interface IDetallePedidoService {
     DetallePedido crear(DetallePedido detallePedido);
-    Optional<DetallePedido> obtenerPorId(Short id);
+    Optional<DetallePedido> obtenerPorId(Integer id);
     List<DetallePedido> listarTodos();
-    List<DetallePedido> listarPorPedido(Short pedidoId);
-    List<DetallePedido> listarPorServicio(Short servicioId);
+    List<DetallePedido> listarPorPedido(Integer pedidoId);
+    List<DetallePedido> listarPorServicio(Integer servicioId);
     DetallePedido actualizar(DetallePedido detallePedido);
-    void eliminar(Short id);
+    void eliminar(Integer id);
 } 

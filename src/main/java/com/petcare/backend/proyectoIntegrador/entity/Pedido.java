@@ -18,7 +18,7 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pedido")
-    private short idPedido;
+    private Integer idPedido;
     
     @Column(name = "fecha")
     private LocalDateTime fecha;

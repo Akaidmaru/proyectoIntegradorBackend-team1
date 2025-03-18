@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface IUsuarioService {
     Usuario crear(Usuario usuario);
-    Optional<Usuario> obtenerPorId(Short id);
+    Optional<Usuario> obtenerPorId(Integer id);
     List<Usuario> listarTodos();
     List<Usuario> buscarPorNombre(String nombre);
     Optional<Usuario> buscarPorEmail(String email);
     Usuario actualizar(Usuario usuario);
-    void eliminar(Short id);
+    void eliminar(Integer id);
     List<Usuario> listarPorRole(ERole role);
 } 

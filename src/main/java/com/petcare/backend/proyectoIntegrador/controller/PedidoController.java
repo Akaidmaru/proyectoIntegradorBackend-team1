@@ -24,7 +24,7 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> obtenerPorId(@PathVariable Short id) {
+    public ResponseEntity<Pedido> obtenerPorId(@PathVariable Integer id) {
         return pedidoService.obtenerPorId(id)
                 .map(pedido -> new ResponseEntity<>(pedido, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -36,7 +36,7 @@ public class PedidoController {
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<Pedido>> listarPorUsuario(@PathVariable Short usuarioId) {
+    public ResponseEntity<List<Pedido>> listarPorUsuario(@PathVariable Integer usuarioId) {
         return new ResponseEntity<>(pedidoService.listarPorUsuario(usuarioId), HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pedido> actualizar(@PathVariable Short id, @RequestBody Pedido pedido) {
+    public ResponseEntity<Pedido> actualizar(@PathVariable Integer id, @RequestBody Pedido pedido) {
         return pedidoService.obtenerPorId(id)
                 .map(pedidoExistente -> {
                     pedido.setIdPedido(id);
@@ -66,7 +66,7 @@ public class PedidoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Short id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         if (pedidoService.obtenerPorId(id).isPresent()) {
             pedidoService.eliminar(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
