@@ -37,7 +37,7 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public AuthResponse register(RegisterRequest request) {
         if (usuarioService.buscarPorEmail(request.getEmail()).isPresent()) {
-            return new AuthResponse(null, null, null, null, null, "El correo ya está registrado.");
+            return new AuthResponse(null, null, null, null, null, null, "El correo ya está registrado.");
         }
 
         Usuario usuario = Usuario.builder()
@@ -53,22 +53,22 @@ public class AuthServiceImpl implements IAuthService {
         usuarioService.crear(usuario);
         String token = jwtService.generateToken(usuario.getEmail());
 
-        return new AuthResponse(token, usuario.getRole(), usuario.getNombre(), usuario.getApellido(), "Usuario creado correctamente", null);
+        return new AuthResponse(token, usuario.getRole(), usuario.getIdUsuario(), usuario.getNombre(), usuario.getApellido(), "Usuario creado correctamente", null);
     }
 
     @Override
     public AuthResponse login(LoginRequest request) {
         Optional<Usuario> usuario = usuarioService.buscarPorEmail(request.getEmail());
         if (usuario.isEmpty()) {
-            return new AuthResponse(null, null, null, null, null, "Usuario no encontrado");
+            return new AuthResponse(null, null, null, null, null, null, "Usuario no encontrado");
         }
 
         if (!passwordEncoder.matches(request.getContrasenia(), usuario.get().getContrasenia())) {
-            return new AuthResponse(null, null, null, null, null, "Credenciales inválidas");
+            return new AuthResponse(null, null, null, null, null, null, "Credenciales inválidas");
         }
 
         String token = jwtService.generateToken(usuario.get().getEmail());
-        return new AuthResponse(token, usuario.get().getRole(), usuario.get().getNombre(), usuario.get().getApellido(), "Usuario autenticado correctamente", null);
+        return new AuthResponse(token, usuario.get().getRole(), usuario.get().getIdUsuario(), usuario.get().getNombre(), usuario.get().getApellido(), "Usuario autenticado correctamente", null);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class MascotaServiceImpl implements IMascotaService {
     }
     
     @Override
-    public Optional<Mascota> obtenerPorId(Short id) {
+    public Optional<Mascota> obtenerPorId(Integer id) {
         return mascotaRepository.findById(id);
     }
     
@@ -45,7 +45,7 @@ public class MascotaServiceImpl implements IMascotaService {
     }
     
     @Override
-    public List<Mascota> listarPorUsuario(Short usuarioId) {
+    public List<Mascota> listarPorUsuario(Integer usuarioId) {
         return mascotaRepository.findByUsuarioId(usuarioId);
     }
     
@@ -56,7 +56,7 @@ public class MascotaServiceImpl implements IMascotaService {
     }
     
     @Override
-    public void eliminar(Short id) {
+    public void eliminar(Integer id) {
         Optional<Mascota> mascota = mascotaRepository.findById(id);
         if (mascota.isPresent()) {
             Mascota m = mascota.get();

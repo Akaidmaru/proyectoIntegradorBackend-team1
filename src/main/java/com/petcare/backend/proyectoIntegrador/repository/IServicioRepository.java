@@ -9,19 +9,20 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
-public interface IServicioRepository extends JpaRepository<Servicio, Short> {
+public interface IServicioRepository extends JpaRepository<Servicio, Integer> {
 
     @Query("SELECT s FROM Servicio s WHERE (:categoria IS NULL OR s.categoria = :categoria)")
     List<Servicio> findByCategoria(@Param("categoria") String categoria);
 
+
     @Query("SELECT s FROM Servicio s WHERE s.nombre LIKE %:nombre%")
     List<Servicio> findByNombre(String nombre);
-
-    List<Servicio> findByDisponibilidad(String disponibilidad);
-
+    
+    List<Servicio> findByEsDisponible(Boolean esDisponible);
+    
     @Query("SELECT s FROM Servicio s WHERE s.precio <= :precioMaximo")
     List<Servicio> findByPrecioLessThanEqual(BigDecimal precioMaximo);
 
     @Query("SELECT s FROM Servicio s WHERE s.esBorrado = false")
     List<Servicio> findActivos();
-}
+} 

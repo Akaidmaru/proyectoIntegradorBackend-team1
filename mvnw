@@ -160,7 +160,7 @@ esac
 # prepare tmp dir
 if TMP_DOWNLOAD_DIR="$(mktemp -d)" && [ -d "$TMP_DOWNLOAD_DIR" ]; then
   clean() { rm -rf -- "$TMP_DOWNLOAD_DIR"; }
-  trap clean HUP INT TERM EXIT
+  trap clean HUP Integer TERM EXIT
 else
   die "cannot create temp dir"
 fi

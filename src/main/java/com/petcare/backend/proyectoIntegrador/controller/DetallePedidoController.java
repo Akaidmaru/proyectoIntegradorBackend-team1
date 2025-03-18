@@ -23,7 +23,7 @@ public class DetallePedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetallePedido> obtenerPorId(@PathVariable Short id) {
+    public ResponseEntity<DetallePedido> obtenerPorId(@PathVariable Integer id) {
         return detallePedidoService.obtenerPorId(id)
                 .map(detalle -> new ResponseEntity<>(detalle, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -35,17 +35,17 @@ public class DetallePedidoController {
     }
 
     @GetMapping("/pedido/{pedidoId}")
-    public ResponseEntity<List<DetallePedido>> listarPorPedido(@PathVariable Short pedidoId) {
+    public ResponseEntity<List<DetallePedido>> listarPorPedido(@PathVariable Integer pedidoId) {
         return new ResponseEntity<>(detallePedidoService.listarPorPedido(pedidoId), HttpStatus.OK);
     }
 
     @GetMapping("/servicio/{servicioId}")
-    public ResponseEntity<List<DetallePedido>> listarPorServicio(@PathVariable Short servicioId) {
+    public ResponseEntity<List<DetallePedido>> listarPorServicio(@PathVariable Integer servicioId) {
         return new ResponseEntity<>(detallePedidoService.listarPorServicio(servicioId), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DetallePedido> actualizar(@PathVariable Short id, @RequestBody DetallePedido detallePedido) {
+    public ResponseEntity<DetallePedido> actualizar(@PathVariable Integer id, @RequestBody DetallePedido detallePedido) {
         return detallePedidoService.obtenerPorId(id)
                 .map(detalleExistente -> {
                     detallePedido.setIdDetallePedido(id);
@@ -55,7 +55,7 @@ public class DetallePedidoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Short id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         if (detallePedidoService.obtenerPorId(id).isPresent()) {
             detallePedidoService.eliminar(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface IPedidoRepository extends JpaRepository<Pedido, Short> {
+public interface IPedidoRepository extends JpaRepository<Pedido, Integer> {
     @Query("SELECT p FROM Pedido p WHERE p.usuario.idUsuario = :usuarioId")
-    List<Pedido> findByUsuarioId(Short usuarioId);
+    List<Pedido> findByUsuarioId(Integer usuarioId);
     
     List<Pedido> findByEstado(String estado);
     

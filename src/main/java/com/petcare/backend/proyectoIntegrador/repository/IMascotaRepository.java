@@ -7,14 +7,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IMascotaRepository extends JpaRepository<Mascota, Short> {
+public interface IMascotaRepository extends JpaRepository<Mascota, Integer> {
     @Query("SELECT m FROM Mascota m WHERE m.nombre LIKE %:nombre%")
     List<Mascota> findByNombre(String nombre);
     
     List<Mascota> findByEspecie(String especie);
     
     @Query("SELECT m FROM Mascota m WHERE m.usuario.idUsuario = :usuarioId")
-    List<Mascota> findByUsuarioId(Short usuarioId);
+    List<Mascota> findByUsuarioId(Integer usuarioId);
     
     @Query("SELECT m FROM Mascota m WHERE m.esBorrado = false")
     List<Mascota> findActivas();

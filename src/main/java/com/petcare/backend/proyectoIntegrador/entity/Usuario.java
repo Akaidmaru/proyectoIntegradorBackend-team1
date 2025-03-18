@@ -24,7 +24,7 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private short idUsuario;
+    private Integer idUsuario;
 
     @Column(name = "nombre")
     private String nombre;
@@ -69,8 +69,8 @@ public class Usuario implements UserDetails {
     @ManyToMany
     @JoinTable(
             name = "favoritos",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "servicio_id")
+            joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_servicio")
     )
     private List<Servicio> favoritos;
 

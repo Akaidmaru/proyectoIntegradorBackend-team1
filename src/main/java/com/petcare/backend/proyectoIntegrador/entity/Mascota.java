@@ -1,5 +1,6 @@
 package com.petcare.backend.proyectoIntegrador.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Mascota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_mascota")
-    private short idMascota;
+    private Integer idMascota;
     
     @Column(name = "nombre")
     private String nombre;
@@ -48,8 +49,10 @@ public class Mascota {
      */
     @ManyToOne
     @JoinColumn(name = "id_usuario")
+    @JsonIgnore
     private Usuario usuario;
     
     @OneToMany(mappedBy = "mascota")
+    @JsonIgnore
     private List<Reserva> reservas;
 } 
