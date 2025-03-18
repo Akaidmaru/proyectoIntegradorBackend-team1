@@ -2,7 +2,7 @@ name: Build & Push Backend
 
 on:
     push:
-        branches: [master]
+        branches: [main-fork]
     workflow_dispatch:
 
 jobs:
