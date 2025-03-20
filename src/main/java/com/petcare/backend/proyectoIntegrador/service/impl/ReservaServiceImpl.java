@@ -20,13 +20,15 @@ public class ReservaServiceImpl implements IReservaService {
     private final IUsuarioRepository usuarioRepository;
     private final IServicioRepository servicioRepository;
     private final IMascotaRepository mascotaRepository;
+    private final IEspecieRepository especieRepository;
 
 
-    public ReservaServiceImpl(IReservaRepository reservaRepository, IUsuarioRepository usuarioRepository, IServicioRepository servicioRepository, IMascotaRepository mascotaRepository) {
+    public ReservaServiceImpl(IReservaRepository reservaRepository, IUsuarioRepository usuarioRepository, IServicioRepository servicioRepository, IMascotaRepository mascotaRepository, IEspecieRepository especieRepository) {
         this.reservaRepository = reservaRepository;
         this.usuarioRepository = usuarioRepository;
         this.servicioRepository = servicioRepository;
         this.mascotaRepository = mascotaRepository;
+        this.especieRepository = especieRepository;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class ReservaServiceImpl implements IReservaService {
         reserva.setFechaRegistro(LocalDateTime.now());
         reserva.setFechaActualizacion(LocalDateTime.now());
         reserva.setEsBorrado(false);
-        reserva.setEstado("PENDIENTE"); // Valor por defecto al crear
+        reserva.setEstado("CONFIRMADA"); // Valor por defecto al crear
         if (reserva.getFechas() == null) {
             List<ReservaFecha> reservasFecha = new ArrayList<>();
             ReservaFecha reservaFecha = new ReservaFecha();
@@ -60,10 +62,10 @@ public class ReservaServiceImpl implements IReservaService {
         return reservaRepository.findByUsuarioId(usuarioId);
     }
 
-    @Override
-    public List<Reserva> listarPorMascota(Integer mascotaId) {
-        return reservaRepository.findByMascotaId(mascotaId);
-    }
+//    @Override
+//    public List<Reserva> listarPorMascota(Integer mascotaId) {
+//        return reservaRepository.findByMascotaId(mascotaId);
+//    }
 
     @Override
     public List<Reserva> listarPorEstado(String estado) {
@@ -94,8 +96,8 @@ public class ReservaServiceImpl implements IReservaService {
     public Reserva crearReserva(ReservaDTO reservaDTO) {
         Usuario usuario = usuarioRepository.findById(reservaDTO.getIdUsuario())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-        Mascota mascota = mascotaRepository.findById(reservaDTO.getIdMascota())
-                .orElseThrow(() -> new IllegalArgumentException("Mascota no encontrada"));
+        Especie especie = especieRepository.findById(reservaDTO.getIdEspecie())
+                .orElseThrow(() -> new IllegalArgumentException("Especie no encontrada"));
         Servicio servicio = servicioRepository.findById(reservaDTO.getIdServicio())
                 .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado"));
 
@@ -104,7 +106,7 @@ public class ReservaServiceImpl implements IReservaService {
         reserva.setFechaRegistro(LocalDateTime.now());
         reserva.setFechaActualizacion(LocalDateTime.now());
         reserva.setUsuario(usuario);
-        reserva.setMascota(mascota);
+        reserva.setEspecie(especie);
         reserva.setServicio(servicio);
 
         List<ReservaFecha> fechas = reservaDTO.getFechas().stream().map(fechaDTO -> {

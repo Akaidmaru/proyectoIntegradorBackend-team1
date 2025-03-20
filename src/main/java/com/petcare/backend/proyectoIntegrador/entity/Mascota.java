@@ -51,8 +51,4 @@ public class Mascota {
     @JoinColumn(name = "id_usuario")
     @JsonIgnore
     private Usuario usuario;
-    
-    @OneToMany(mappedBy = "mascota")
-    @JsonIgnore
-    private List<Reserva> reservas;
 } 

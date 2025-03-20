@@ -17,7 +17,7 @@ public interface IReservaService {
 
     List<Reserva> listarPorUsuario(Integer usuarioId);
 
-    List<Reserva> listarPorMascota(Integer mascotaId);
+    //List<Reserva> listarPorMascota(Integer mascotaId);
 
     List<Reserva> listarPorEstado(String estado);
 

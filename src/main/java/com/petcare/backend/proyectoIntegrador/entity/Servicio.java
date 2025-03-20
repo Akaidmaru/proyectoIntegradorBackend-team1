@@ -1,15 +1,10 @@
 package com.petcare.backend.proyectoIntegrador.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Type;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,8 +14,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "servicio")
-@Getter
-@Setter
 @NoArgsConstructor
 public class Servicio {
     
@@ -74,6 +67,8 @@ public class Servicio {
     @JsonIgnore
     private List<ServicioImagen> imagenUrls;
 
-    public Servicio(String nombre, String descripcion, BigDecimal precio, String imagenUrlJson) {
-    }
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<CaracteristicaValor> caracteristicas;
+
 }

@@ -1,5 +1,6 @@
 package com.petcare.backend.proyectoIntegrador.DTO;
 
+import com.petcare.backend.proyectoIntegrador.entity.CaracteristicaValor;
 import com.petcare.backend.proyectoIntegrador.entity.Categoria;
 import com.petcare.backend.proyectoIntegrador.entity.Servicio;
 import com.petcare.backend.proyectoIntegrador.entity.ServicioImagen;
@@ -27,6 +28,7 @@ public class ServicioResponse {
     private LocalDateTime fechaBorrado;
     private Categoria categoria;
     private Double rating;
+    private List<CaracteristicaDTO> caracteristicas;
 
     public ServicioResponse(Servicio servicio) {
     }
