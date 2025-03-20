@@ -12,6 +12,7 @@ public interface IServicioService {
     Servicio crear(Servicio servicio, List<String> imageUrls);
     Optional<Servicio> obtenerPorId(Integer id);
     List<Servicio> listarTodos();
+    List<String> listarSugerencias(String param);
     List<Servicio> getFilteredServices(ServiceRequestFilters serviceRequestFilters);
     Servicio asignarCategoria(Integer idServicio, Long idCategoria);
     List<Servicio> filtrarServicios(String categoria);

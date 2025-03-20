@@ -2,10 +2,7 @@ package com.petcare.backend.proyectoIntegrador.service.impl;
 
 import com.petcare.backend.proyectoIntegrador.DTO.ServiceRequestFilters;
 import com.petcare.backend.proyectoIntegrador.entity.*;
-import com.petcare.backend.proyectoIntegrador.repository.ICategoriaRepository;
-import com.petcare.backend.proyectoIntegrador.repository.IReservaRepository;
-import com.petcare.backend.proyectoIntegrador.repository.IServicioImagenRepository;
-import com.petcare.backend.proyectoIntegrador.repository.IServicioRepository;
+import com.petcare.backend.proyectoIntegrador.repository.*;
 import com.petcare.backend.proyectoIntegrador.service.IServicioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +22,14 @@ public class ServicioServiceImpl implements IServicioService {
     private final ICategoriaRepository categoriaRepository;
     private final IReservaRepository reservaRepository;
     private final IServicioImagenRepository servicioImagenRepository;
+    private final ICaracteristicaValorRepository caracteristicaValorRepository;
 
-    ServicioServiceImpl(IServicioRepository servicioRepository, ICategoriaRepository categoriaRepository, IReservaRepository reservaRepository, IServicioImagenRepository servicioImagenRepository) {
+    ServicioServiceImpl(IServicioRepository servicioRepository, ICategoriaRepository categoriaRepository, IReservaRepository reservaRepository, IServicioImagenRepository servicioImagenRepository, ICaracteristicaValorRepository caracteristicaValorRepository) {
         this.servicioRepository = servicioRepository;
         this.categoriaRepository = categoriaRepository;
         this.reservaRepository = reservaRepository;
         this.servicioImagenRepository = servicioImagenRepository;
+        this.caracteristicaValorRepository = caracteristicaValorRepository;
     }
 
     @Override
@@ -43,12 +42,23 @@ public class ServicioServiceImpl implements IServicioService {
         Servicio savedServicio = servicioRepository.save(servicio);
 
         logger.info("Servicio saved successfully with ID: {}", savedServicio.getIdServicio());
+
+        if (servicio.getCaracteristicas() != null && !servicio.getCaracteristicas().isEmpty()) {
+            for (CaracteristicaValor caracteristicaValor : servicio.getCaracteristicas()) {
+                caracteristicaValor.setServicio(savedServicio);
+                caracteristicaValorRepository.save(caracteristicaValor);
+            }
+        }
+
+
         // Save the associated ServicioImagen entities (image information)
         List<ServicioImagen> servicioImagenes = imageUrls.stream()
                 .map(url -> new ServicioImagen(null, savedServicio, url))
                 .toList();
 
         servicioImagenRepository.saveAll(servicioImagenes);
+
+
 
         return savedServicio;
     }
@@ -61,6 +71,11 @@ public class ServicioServiceImpl implements IServicioService {
     @Override
     public List<Servicio> listarTodos() {
         return servicioRepository.findActivos();
+    }
+
+    @Override
+    public List<String> listarSugerencias(String param) {
+        return servicioRepository.findSuggestionsByName(param);
     }
 
     public Servicio asignarCategoria(Integer idServicio, Long categoriaId) {
@@ -95,6 +110,7 @@ public class ServicioServiceImpl implements IServicioService {
 
         servicioRepository.save(servicio);
     }
+
 
     @Override
     public List<Servicio> getFilteredServices(ServiceRequestFilters serviceRF) {

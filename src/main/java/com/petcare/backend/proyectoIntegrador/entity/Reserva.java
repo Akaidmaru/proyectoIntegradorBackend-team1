@@ -49,9 +49,9 @@ public class Reserva {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_mascota")
+    @JoinColumn(name = "id_especie")
     @JsonIgnore
-    private Mascota mascota;
+    private Especie especie;
 
     @ManyToOne
     @JoinColumn(name = "id_servicio")

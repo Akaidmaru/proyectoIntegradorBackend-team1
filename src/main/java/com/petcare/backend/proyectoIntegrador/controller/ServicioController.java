@@ -5,6 +5,8 @@ import com.petcare.backend.proyectoIntegrador.DTO.ServiceRequestFilters;
 import com.petcare.backend.proyectoIntegrador.DTO.ServicioRequest;
 import com.petcare.backend.proyectoIntegrador.DTO.ServicioResponse;
 import com.petcare.backend.proyectoIntegrador.config.S3Service;
+import com.petcare.backend.proyectoIntegrador.entity.CaracteristicaValor;
+import com.petcare.backend.proyectoIntegrador.entity.Caracteristicas;
 import com.petcare.backend.proyectoIntegrador.entity.Servicio;
 import com.petcare.backend.proyectoIntegrador.entity.ServicioImagen;
 import com.petcare.backend.proyectoIntegrador.service.IServicioService;
@@ -114,6 +116,18 @@ public class ServicioController {
     }
 
 
+    @GetMapping("/suggestions")
+    public ResponseEntity<List<String>> getSuggestions(@RequestParam(required = false) String query) {
+        List<String> suggestions = servicioService.listarSugerencias(query).stream()
+                .filter(servicio -> servicio != null &&
+                        servicio.toLowerCase().contains(query.toLowerCase()))
+                .limit(10)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(suggestions);
+    }
+
+
     @GetMapping("/filters")
     public ResponseEntity<List<Servicio>> getFilteredServices(
             @RequestParam(required = false) String name,
@@ -195,7 +209,22 @@ public class ServicioController {
         servicio.setNombre(servicioDTO.getNombre());
         servicio.setDescripcion(servicioDTO.getDescripcion());
         servicio.setPrecio(servicioDTO.getPrecio());
-        servicio.setCategoria(servicioDTO.getCategoria()); // Map the category
+        servicio.setCategoria(servicioDTO.getCategoria());
+
+        if (servicioDTO.getCaracteristicas() != null) {
+            List<CaracteristicaValor> caracteristicas = servicioDTO.getCaracteristicas().stream()
+                    .map(req -> {
+                        CaracteristicaValor cv = new CaracteristicaValor();
+                        Caracteristicas caracteristica = new Caracteristicas();
+                        caracteristica.setIdCaracteristica(req.getIdCaracteristica());
+                        cv.setCaracteristica(caracteristica);
+                        cv.setValor(req.getValor());
+                        return cv;
+                    })
+                    .toList();
+
+            servicio.setCaracteristicas(caracteristicas);
+        }
         return servicio;
     }
 

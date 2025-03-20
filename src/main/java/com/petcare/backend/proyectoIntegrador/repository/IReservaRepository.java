@@ -16,8 +16,8 @@ public interface IReservaRepository extends JpaRepository<Reserva, Integer> {
     @Query("SELECT r FROM Reserva r WHERE r.usuario.idUsuario = :usuarioId")
     List<Reserva> findByUsuarioId(Integer usuarioId);
     
-    @Query("SELECT r FROM Reserva r WHERE r.mascota.idMascota = :mascotaId")
-    List<Reserva> findByMascotaId(Integer mascotaId);
+//    @Query("SELECT r FROM Reserva r WHERE r.mascota.idMascota = :mascotaId")
+//    List<Reserva> findByMascotaId(Integer mascotaId);
     
     List<Reserva> findByEstado(String estado);
 

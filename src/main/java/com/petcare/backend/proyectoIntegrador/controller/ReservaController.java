@@ -58,10 +58,10 @@ public class ReservaController {
         return new ResponseEntity<>(reservaService.listarPorUsuario(usuarioId), HttpStatus.OK);
     }
 
-    @GetMapping("/mascota/{mascotaId}")
-    public ResponseEntity<List<Reserva>> listarPorMascota(@PathVariable Integer mascotaId) {
-        return new ResponseEntity<>(reservaService.listarPorMascota(mascotaId), HttpStatus.OK);
-    }
+//    @GetMapping("/mascota/{mascotaId}")
+//    public ResponseEntity<List<Reserva>> listarPorMascota(@PathVariable Integer mascotaId) {
+//        return new ResponseEntity<>(reservaService.listarPorMascota(mascotaId), HttpStatus.OK);
+//    }
 
     @GetMapping("/estado/{estado}")
     public ResponseEntity<List<Reserva>> listarPorEstado(@PathVariable String estado) {

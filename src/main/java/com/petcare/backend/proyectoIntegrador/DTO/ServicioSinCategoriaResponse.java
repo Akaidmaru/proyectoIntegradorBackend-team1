@@ -1,6 +1,8 @@
 package com.petcare.backend.proyectoIntegrador.DTO;
 
+import com.petcare.backend.proyectoIntegrador.entity.CaracteristicaValor;
 import com.petcare.backend.proyectoIntegrador.entity.ServicioImagen;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ServicioSinCategoriaResponse {
     private Integer idServicio;
     private String nombre;
@@ -22,18 +25,5 @@ public class ServicioSinCategoriaResponse {
     private boolean esBorrado;
     private LocalDateTime fechaBorrado;
     private Double rating;
-
-    public ServicioSinCategoriaResponse(Integer idServicio, String nombre, String descripcion, BigDecimal precio, List<ServicioImagen> imagenUrls, Boolean disponibilidad, LocalDateTime fechaRegistro, LocalDateTime fechaActualizacion, boolean esBorrado, LocalDateTime fechaBorrado, Double rating) {
-        this.idServicio = idServicio;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
-        this.imagenUrls = imagenUrls;
-        this.disponibilidad = disponibilidad;
-        this.fechaRegistro = fechaRegistro;
-        this.fechaActualizacion = fechaActualizacion;
-        this.esBorrado = esBorrado;
-        this.fechaBorrado = fechaBorrado;
-        this.rating = rating;
-    }
+    private List<CaracteristicaDTO> caracteristicas;
 }
