@@ -1,0 +1,33 @@
+name: Build & Push Backend
+
+on:
+    push:
+        branches: [cloud-back]
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Login to GHCR
+              run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+            - name: Build and Push
+              run: |
+                  docker build -t ghcr.io/akaidmaru/proyectointegradorbackend-team1:latest .
+                  docker push ghcr.io/akaidmaru/proyectointegradorbackend-team1:latest
+
+            - name: Trigger Infra Deployment
+              uses: actions/github-script@v6
+              if: success()
+              with:
+                  github-token: ${{ secrets.WORKFLOW_TOKEN }}
+                  script: |
+                      await github.rest.actions.createWorkflowDispatch({
+                        owner: 'akaidmaru',
+                        repo: 'infraProyectoIntegrador',
+                        workflow_id: 'build-deploy.yml',
+                        ref: 'main',
+                      });
