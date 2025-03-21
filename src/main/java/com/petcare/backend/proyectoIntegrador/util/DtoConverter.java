@@ -55,6 +55,7 @@ public class DtoConverter {
                     dto.setIdCaracteristica(cv.getCaracteristica().getIdCaracteristica());
                     dto.setNombre(cv.getCaracteristica().getNombre());
                     dto.setValor(cv.getValor());
+                    dto.setIcon(cv.getCaracteristica().getIcon());
                     return dto;
                 })
                 .toList();

@@ -1,5 +1,6 @@
 package com.petcare.backend.proyectoIntegrador.service.impl;
 
+import com.petcare.backend.proyectoIntegrador.DTO.UsuarioResponse;
 import com.petcare.backend.proyectoIntegrador.entity.ERole;
 import com.petcare.backend.proyectoIntegrador.entity.Usuario;
 import com.petcare.backend.proyectoIntegrador.repository.IUsuarioRepository;
@@ -33,6 +34,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public List<Usuario> listarTodos() {
         return usuarioRepository.findActivos();
+    }
+
+
+    @Override
+    public List<UsuarioResponse> listarTodosList() {
+        return usuarioRepository.findActivosList();
     }
     
     @Override

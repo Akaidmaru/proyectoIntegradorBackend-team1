@@ -1,9 +1,7 @@
 package com.petcare.backend.proyectoIntegrador.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petcare.backend.proyectoIntegrador.DTO.ServiceRequestFilters;
-import com.petcare.backend.proyectoIntegrador.DTO.ServicioRequest;
-import com.petcare.backend.proyectoIntegrador.DTO.ServicioResponse;
+import com.petcare.backend.proyectoIntegrador.DTO.*;
 import com.petcare.backend.proyectoIntegrador.config.S3Service;
 import com.petcare.backend.proyectoIntegrador.entity.CaracteristicaValor;
 import com.petcare.backend.proyectoIntegrador.entity.Caracteristicas;
@@ -101,6 +99,12 @@ public class ServicioController {
     }
 
 
+    @GetMapping("/servicio-list")
+    public ResponseEntity<List<ServicioResponseList>> obtenerServicioList() {
+        return ResponseEntity.ok(servicioService.listarTodosList());
+    }
+
+
     @PutMapping("/{servicioId}/categorias/{categoriaId}")
     public ResponseEntity<ServicioResponse> asignarCategoriaAServicio(@PathVariable Integer servicioId, @PathVariable Long categoriaId) {
         Servicio servicio = servicioService.asignarCategoria(servicioId, categoriaId);
@@ -110,17 +114,17 @@ public class ServicioController {
 
 
     @PostMapping("/{servicioId}/calificar")
-    public ResponseEntity<?> calificarServicio(@PathVariable Integer servicioId, @RequestBody Integer calificacion) {
-        servicioService.calificarServicio(servicioId, calificacion);
+    public ResponseEntity<?> calificarServicio(@PathVariable Integer idServicio, @RequestBody Integer calificacion) {
+        servicioService.calificarServicio(idServicio, calificacion);
         return ResponseEntity.ok("Calificación añadida");
     }
 
 
     @GetMapping("/suggestions")
-    public ResponseEntity<List<String>> getSuggestions(@RequestParam(required = false) String query) {
-        List<String> suggestions = servicioService.listarSugerencias(query).stream()
+    public ResponseEntity<List<ServicioResponseSuggestions>> getSuggestions(@RequestParam(required = false) String query) {
+        List<ServicioResponseSuggestions> suggestions = servicioService.listarSugerencias(query).stream()
                 .filter(servicio -> servicio != null &&
-                        servicio.toLowerCase().contains(query.toLowerCase()))
+                        servicio.getCategoriaNombre().toLowerCase().contains(query.toLowerCase()))
                 .limit(10)
                 .collect(Collectors.toList());
 

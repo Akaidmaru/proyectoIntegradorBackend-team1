@@ -1,5 +1,6 @@
 package com.petcare.backend.proyectoIntegrador.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -43,6 +44,7 @@ public class Pedido {
     
     @ManyToOne
     @JoinColumn(name = "id_usuario")
+    @JsonIgnore
     private Usuario usuario;
 
     @OneToMany(mappedBy = "pedido")
