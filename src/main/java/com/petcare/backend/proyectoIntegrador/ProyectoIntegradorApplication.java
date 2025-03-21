@@ -17,12 +17,13 @@ public class ProyectoIntegradorApplication {
 		// Verificar si estamos en entorno de producción
 		String activeProfile = System.getenv("SPRING_PROFILES_ACTIVE");
 		boolean isProduction = activeProfile != null && activeProfile.equals("prod");
-		
-		// Por defecto, usar el archivo .env a menos que explícitamente estemos en producción
+
+		// Por defecto, usar el archivo .env a menos que explícitamente estemos en
+		// producción
 		if (!isProduction) {
 			try {
 				Dotenv dotenv = Dotenv.load();
-				
+
 				System.setProperty("spring.datasource.url", "jdbc:mysql://" + dotenv.get("DB_HOST") + ":3306/"
 						+ dotenv.get("DB_NAME")
 						+ "?createDatabaseIfNotExist=true&useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true");
@@ -31,7 +32,7 @@ public class ProyectoIntegradorApplication {
 				System.setProperty("jwt.secret", dotenv.get("JWT_SECRET"));
 				System.setProperty("aws.accessKeyId", dotenv.get("AWS_ACCESS_KEY_ID"));
 				System.setProperty("aws.secretAccessKey", dotenv.get("AWS_SECRET_ACCESS_KEY"));
-				
+
 				System.out.println("Variables cargadas desde archivo .env (entorno local/desarrollo)");
 			} catch (Exception e) {
 				System.out.println("Error al cargar variables de .env: " + e.getMessage());

@@ -6,11 +6,11 @@ import java.util.Optional;
 
 public interface IMascotaService {
     Mascota crear(Mascota mascota);
-    Optional<Mascota> obtenerPorId(Short id);
+    Optional<Mascota> obtenerPorId(Integer id);
     List<Mascota> listarTodos();
     List<Mascota> buscarPorNombre(String nombre);
     List<Mascota> buscarPorEspecie(String especie);
-    List<Mascota> listarPorUsuario(Short usuarioId);
+    List<Mascota> listarPorUsuario(Integer usuarioId);
     Mascota actualizar(Mascota mascota);
-    void eliminar(Short id);
+    void eliminar(Integer id);
 } 

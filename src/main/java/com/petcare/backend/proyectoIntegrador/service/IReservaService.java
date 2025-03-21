@@ -1,6 +1,9 @@
 package com.petcare.backend.proyectoIntegrador.service;
 
+import com.petcare.backend.proyectoIntegrador.DTO.ReservaDTO;
 import com.petcare.backend.proyectoIntegrador.entity.Reserva;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -8,19 +11,22 @@ import java.util.Optional;
 public interface IReservaService {
     Reserva crear(Reserva reserva);
 
-    Optional<Reserva> obtenerPorId(Short id);
+    Optional<Reserva> obtenerPorId(Integer id);
 
     List<Reserva> listarTodos();
 
-    List<Reserva> listarPorUsuario(Short usuarioId);
+    List<Reserva> listarPorUsuario(Integer usuarioId);
 
-    List<Reserva> listarPorMascota(Short mascotaId);
+    //List<Reserva> listarPorMascota(Integer mascotaId);
 
     List<Reserva> listarPorEstado(String estado);
 
-    List<Reserva> buscarPorRangoFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin);
-
     Reserva actualizar(Reserva reserva);
 
-    void eliminar(Short id);
+    void eliminar(Integer id);
+
+
+
+    List<LocalDate> getFechasConfirmadas(Integer idServicio);
+    Reserva crearReserva(ReservaDTO reservaDTO);
 }

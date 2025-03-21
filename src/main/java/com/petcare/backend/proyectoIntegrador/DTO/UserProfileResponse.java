@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserProfileResponse {
-    private short idUsuario;
+    private Integer idUsuario;
     private String nombre;
     private String apellido;
     private String email;

@@ -26,7 +26,7 @@ public class PedidoServiceImpl implements IPedidoService {
     }
     
     @Override
-    public Optional<Pedido> obtenerPorId(Short id) {
+    public Optional<Pedido> obtenerPorId(Integer id) {
         return pedidoRepository.findById(id);
     }
     
@@ -36,7 +36,7 @@ public class PedidoServiceImpl implements IPedidoService {
     }
     
     @Override
-    public List<Pedido> listarPorUsuario(Short usuarioId) {
+    public List<Pedido> listarPorUsuario(Integer usuarioId) {
         return pedidoRepository.findByUsuarioId(usuarioId);
     }
     
@@ -57,7 +57,7 @@ public class PedidoServiceImpl implements IPedidoService {
     }
     
     @Override
-    public void eliminar(Short id) {
+    public void eliminar(Integer id) {
         Optional<Pedido> pedido = pedidoRepository.findById(id);
         if (pedido.isPresent()) {
             Pedido p = pedido.get();

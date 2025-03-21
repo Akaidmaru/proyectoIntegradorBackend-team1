@@ -24,14 +24,14 @@ public class DetallePedidoServiceImpl implements IDetallePedidoService {
         
         // Si la cantidad es 0 o negativa, establecer a 1
         if (detallePedido.getCantidad() <= 0) {
-            detallePedido.setCantidad((short) 1);
+            detallePedido.setCantidad((Integer) 1);
         }
         
         return detallePedidoRepository.save(detallePedido);
     }
     
     @Override
-    public Optional<DetallePedido> obtenerPorId(Short id) {
+    public Optional<DetallePedido> obtenerPorId(Integer id) {
         return detallePedidoRepository.findById(id);
     }
     
@@ -41,12 +41,12 @@ public class DetallePedidoServiceImpl implements IDetallePedidoService {
     }
     
     @Override
-    public List<DetallePedido> listarPorPedido(Short pedidoId) {
+    public List<DetallePedido> listarPorPedido(Integer pedidoId) {
         return detallePedidoRepository.findByPedidoId(pedidoId);
     }
     
     @Override
-    public List<DetallePedido> listarPorServicio(Short servicioId) {
+    public List<DetallePedido> listarPorServicio(Integer servicioId) {
         return detallePedidoRepository.findByServicioId(servicioId);
     }
     
@@ -57,7 +57,7 @@ public class DetallePedidoServiceImpl implements IDetallePedidoService {
     }
     
     @Override
-    public void eliminar(Short id) {
+    public void eliminar(Integer id) {
         Optional<DetallePedido> detallePedido = detallePedidoRepository.findById(id);
         if (detallePedido.isPresent()) {
             DetallePedido dp = detallePedido.get();

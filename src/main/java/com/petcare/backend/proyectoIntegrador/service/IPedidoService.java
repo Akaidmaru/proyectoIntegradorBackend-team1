@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface IPedidoService {
     Pedido crear(Pedido pedido);
-    Optional<Pedido> obtenerPorId(Short id);
+    Optional<Pedido> obtenerPorId(Integer id);
     List<Pedido> listarTodos();
-    List<Pedido> listarPorUsuario(Short usuarioId);
+    List<Pedido> listarPorUsuario(Integer usuarioId);
     List<Pedido> listarPorEstado(String estado);
     List<Pedido> buscarPorRangoFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin);
     Pedido actualizar(Pedido pedido);
-    void eliminar(Short id);
+    void eliminar(Integer id);
 } 

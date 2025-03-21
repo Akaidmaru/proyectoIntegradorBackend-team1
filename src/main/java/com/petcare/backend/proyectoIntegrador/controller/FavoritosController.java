@@ -25,7 +25,7 @@ public class FavoritosController {
 
     @PostMapping("/{servicioId}")
     public ResponseEntity<String> toggleFavorito(@RequestHeader("Authorization") String token,
-                                                 @PathVariable short servicioId) {
+                                                 @PathVariable Integer servicioId) {
         String email = jwtService.extractUsername(token.replace("Bearer ", ""));
         Usuario usuario = usuarioService.buscarPorEmail(email).orElseThrow();
         Servicio servicio = servicioService.obtenerPorId(servicioId).orElseThrow();

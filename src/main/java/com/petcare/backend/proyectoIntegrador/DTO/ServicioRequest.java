@@ -4,6 +4,7 @@ import com.petcare.backend.proyectoIntegrador.entity.Categoria;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @ToString
 @Setter
@@ -15,5 +16,5 @@ public class ServicioRequest {
     private String descripcion;
     private BigDecimal precio;
     private Categoria categoria;
-
+    private List<CaracteristicaValorRequest> caracteristicas;
 }

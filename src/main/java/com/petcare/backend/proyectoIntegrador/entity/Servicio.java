@@ -1,59 +1,51 @@
 package com.petcare.backend.proyectoIntegrador.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Type;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
 /**
  * Entidad que representa un servicio ofrecido en el sistema.
  */
 @Data
 @Entity
 @Table(name = "servicio")
-@Getter
-@Setter
 @NoArgsConstructor
+@Getter @Setter
+@AllArgsConstructor
 public class Servicio {
-
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    
     @Column(name = "id_servicio")
-    private short idServicio; // Preguntar por el tipo de dato, es mejor short?
-
+    private Integer idServicio; // Preguntar por el tipo de dato, es mejor Integer?
+    
     @Column(name = "nombre")
     private String nombre;
-
+    
     @Column(name = "descripcion")
     private String descripcion;
-
+    
     @Column(name = "precio")
     private BigDecimal precio;
 
-    @Column(name = "imagen_url", columnDefinition = "TEXT")
-    private String imagenUrl;
-
-    @Column(name = "disponibilidad")
-    private String disponibilidad; // TODO: Convertir a enum (DISPONIBLE, NO_DISPONIBLE)
-
+    @Column(name = "es_disponible")
+    private Boolean esDisponible;
+    
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
-
+    
     @Column(name = "fecha_actualizacion")
     private LocalDateTime fechaActualizacion;
-
+    
     @Column(name = "es_borrado")
     private boolean esBorrado;
-
+    
     @Column(name = "fecha_borrado")
     private LocalDateTime fechaBorrado;
 
@@ -74,6 +66,15 @@ public class Servicio {
     @ManyToMany(mappedBy = "favoritos")
     private List<Usuario> usuariosQueLoMarcaron;
 
-    public Servicio(String nombre, String descripcion, BigDecimal precio, String imagenUrlJson) {
-    }
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<ServicioImagen> imagenUrls;
+
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<CaracteristicaValor> caracteristicas;
+
+    @Transient // Este campo no se persiste en la base de datos
+    private List<LocalDate> fechasReservadas;
+
 }

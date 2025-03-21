@@ -1,5 +1,6 @@
 package com.petcare.backend.proyectoIntegrador.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -17,10 +18,10 @@ public class DetallePedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_pedido")
-    private short idDetallePedido;
+    private Integer idDetallePedido;
     
     @Column(name = "cantidad")
-    private short cantidad;
+    private Integer cantidad;
     
     @Column(name = "precio_unitario")
     private BigDecimal precioUnitario;
@@ -39,9 +40,11 @@ public class DetallePedido {
     
     @ManyToOne
     @JoinColumn(name = "id_pedido")
+    @JsonIgnore
     private Pedido pedido;
     
     @ManyToOne
     @JoinColumn(name = "id_servicio")
+    @JsonIgnore
     private Servicio servicio;
 } 

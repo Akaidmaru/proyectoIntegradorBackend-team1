@@ -1,5 +1,6 @@
 package com.petcare.backend.proyectoIntegrador.service.impl;
 
+import com.petcare.backend.proyectoIntegrador.DTO.UsuarioResponse;
 import com.petcare.backend.proyectoIntegrador.entity.ERole;
 import com.petcare.backend.proyectoIntegrador.entity.Usuario;
 import com.petcare.backend.proyectoIntegrador.repository.IUsuarioRepository;
@@ -26,13 +27,19 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
     
     @Override
-    public Optional<Usuario> obtenerPorId(Short id) {
+    public Optional<Usuario> obtenerPorId(Integer id) {
         return usuarioRepository.findById(id);
     }
     
     @Override
     public List<Usuario> listarTodos() {
         return usuarioRepository.findActivos();
+    }
+
+
+    @Override
+    public List<UsuarioResponse> listarTodosList() {
+        return usuarioRepository.findActivosList();
     }
     
     @Override
@@ -52,7 +59,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
     
     @Override
-    public void eliminar(Short id) {
+    public void eliminar(Integer id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         if (usuario.isPresent()) {
             Usuario u = usuario.get();
