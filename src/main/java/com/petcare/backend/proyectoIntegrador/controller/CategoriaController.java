@@ -40,6 +40,12 @@ public class CategoriaController {
         return new ResponseEntity<>(respuestas, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/categoria-list")
+    public ResponseEntity<List<Categoria>> obtenerListaCategorias() {
+        List<Categoria> categorias = categoriaService.obtenerTodasLasCategorias();
+        return new ResponseEntity<>(categorias, HttpStatus.OK);
+    }
+
     private CategoriaResponse convertirCategoriaARespuesta(Categoria categoria) {
         List<ServicioSinCategoriaResponse> servicios = categoria.getServicios().stream()
                 .map(DtoConverter::convertirARespuestaSinCategoria)

@@ -1,6 +1,7 @@
 package com.petcare.backend.proyectoIntegrador.controller;
 
 import com.petcare.backend.proyectoIntegrador.DTO.UserProfileResponse;
+import com.petcare.backend.proyectoIntegrador.DTO.UsuarioResponse;
 import com.petcare.backend.proyectoIntegrador.config.JwtService;
 import com.petcare.backend.proyectoIntegrador.entity.ERole;
 import com.petcare.backend.proyectoIntegrador.entity.Usuario;
@@ -38,6 +39,11 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<Usuario>> listarTodos() {
         return new ResponseEntity<>(usuarioService.listarTodos(), HttpStatus.OK);
+    }
+
+    @GetMapping("/usuario-list")
+    public ResponseEntity<List<UsuarioResponse>> usuarioList() {
+        return new ResponseEntity<>(usuarioService.listarTodosList(), HttpStatus.OK);
     }
 
     @GetMapping("/nombre/{nombre}")

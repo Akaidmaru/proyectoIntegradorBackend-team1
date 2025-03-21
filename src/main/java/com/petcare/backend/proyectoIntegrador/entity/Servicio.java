@@ -3,9 +3,10 @@ package com.petcare.backend.proyectoIntegrador.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 /**
@@ -15,6 +16,8 @@ import java.util.List;
 @Entity
 @Table(name = "servicio")
 @NoArgsConstructor
+@Getter @Setter
+@AllArgsConstructor
 public class Servicio {
     
     @Id
@@ -70,5 +73,8 @@ public class Servicio {
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<CaracteristicaValor> caracteristicas;
+
+    @Transient // Este campo no se persiste en la base de datos
+    private List<LocalDate> fechasReservadas;
 
 }
