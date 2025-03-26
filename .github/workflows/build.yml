@@ -2,7 +2,7 @@ name: Build & Push Backend
 
 on:
     push:
-        branches: [main-fork]
+        branches: [aws-cloud-back]
     workflow_dispatch:
 
 jobs:
